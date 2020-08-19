@@ -18,12 +18,14 @@ CREATE TABLE IF NOT EXISTS `config` (
   `PROFILE` varchar(50) DEFAULT NULL,
   `LABEL` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`APP_CONFIG_UID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 zenca.config:~0 rows (대략적) 내보내기
+-- 테이블 데이터 zenca.config:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
 INSERT INTO `config` (`APP_CONFIG_UID`, `APPLICATION`, `PROFILE`, `LABEL`) VALUES
-	(1, 'zenca', 'test', 'latest');
+	(1, 'zenca', 'test', 'master'),
+	(2, 'api-gateway', 'dev', 'master'),
+	(3, 'service', 'dev', 'master');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 
 -- 테이블 zenca.config_properties 구조 내보내기
@@ -33,11 +35,15 @@ CREATE TABLE IF NOT EXISTS `config_properties` (
   `VALUE` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 zenca.config_properties:~2 rows (대략적) 내보내기
+-- 테이블 데이터 zenca.config_properties:~6 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `config_properties` DISABLE KEYS */;
 INSERT INTO `config_properties` (`APP_CONFIG_UID`, `NAME`, `VALUE`) VALUES
 	(1, 'conn.host', '127.0.0.1'),
-	(1, 'conn.port', '33306');
+	(1, 'conn.port', '33308'),
+	(2, 'zuul.routes.test.stripPrefix', 'false'),
+	(2, 'zuul.routes.test.path', '/v1/test/**'),
+	(2, 'zuul.routes.test.url', 'http://localhost:9011'),
+	(3, 'service.interface.list.all', '{\r\n    "name": "interface1",\r\n    "family": "interface2",\r\n    "age": "interface3",\r\n    "weight": "interface4"\r\n}');
 /*!40000 ALTER TABLE `config_properties` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
