@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/layout}"
+>
+<head></head>
+
+<div layout:fragment="content">
+
+
+  <script type="text/javascript">
+    
+    // thymeleaf value
+    /*<![CDATA[*/
+    var update_flag = "[[${update}]]";
+    var update_id = "[[${id}]]";
+    /*]]>*/
+  
+    var method_menu_id = 0;
+    
+    function appendMethodMenu()
+    {
+      var html = requestHTML("/development/api/module/input_method");
+      method_menu_id++;
+
+      html = "<span id='span-method-menu_" + method_menu_id + "'>" + html + "</span>";
+      $("#span-method-menu").append(html);
+    }
+
+    function removeMethodMenu(event)
+    {
+        var parentSpanID = $(event).closest("span").attr("id");
+        $("#" + parentSpanID).remove();
+    }
+
+    function onCreateContents()
+    {
+      res = requestAPI("/v1/api/" + update_id, null, "GET");
+        //resData = jsonObjectParser(res);
+
+      var apiName = res.data.apiName;
+      var version = res.data.version;
+      var description = res.data.description;
+      var targetUrl = res.data.targetUrl;
+
+      $("#text-api-name").val(apiName);
+      $("#text-api-version").val(version);
+      $("#text-api-description").val(description);
+      $("#text-api-target-url").val(targetUrl);
+      
+    }
+
+    $(document).ready(function () {
+        if(update_flag == "1")
+          onCreateContents();
+      });
+    
+  </script>
+
+
+  <div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>API 정의</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/">홈</a></li>
+                <li class="breadcrumb-item"><a href="/development">개발</a></li>
+                <li class="breadcrumb-item active">신규 생성</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+      <!---------------------- Main content ---------------------->
+      <section class="content" style="margin-right:250px;">
+
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h2 class="card-title">API 기본 정보</h2>
+                  </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                  <form role="form">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label>API 명</label>
+                        <input type="text" class="form-control" id="text-api-name">
+                      </div>
+                      
+                      <div class="form-group">
+                        <label>버전</label>
+                        <input type="text" class="form-control" id="text-api-version">
+                      </div>
+
+                      <div class="form-group">
+                        <label>TARGET URL</label>
+                        <input type="text" class="form-control" id="text-api-target-url">
+                      </div>
+
+                      <div class="form-group">
+                        <label>설명 (선택사항)</label>
+                        <input type="text" class="form-control" id="text-api-description">
+                      </div>
+
+                  </form>
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+
+      </section>
+      <!-- /.content -->
+
+      <section class="content" style="margin-right:250px;">
+
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h2 class="card-title">API 세부 명세</h2>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                  <form role="form">
+                    <div class="card-body">
+                      
+                      <div class="form-group">
+                        <span>
+                          <input style="width:120px"
+                            type="button"
+                            class="btn btn-info btn-lg"
+                            id="btn-api-create"
+                            value="API 경로 추가"
+                            onclick="appendMethodMenu()"
+                          />
+                      </span>
+
+                      <br/><br/>
+
+                      <span id="span-method-menu">
+                      </span>
+
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+
+
+            <span style="margin:0 auto">
+                <input style="width:150px"
+                  type="button"
+                  class="btn btn-primary btn-lg"
+                  id="btn-api-create"
+                  value="신규 생성"
+                />
+            </span>
+
+            <br/>
+            <br/>
+            <br/>
+
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+
+      </section>
+
+
+    </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+</div>
+</html>
