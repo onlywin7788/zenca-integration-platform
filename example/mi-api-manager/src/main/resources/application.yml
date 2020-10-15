@@ -1,0 +1,28 @@
+server:
+  port: 38081
+
+# actucator 모든 정보
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# spring option
+spring:
+  application:
+    name: mi-api-manager
+  profiles:
+    active: local # default setting
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+    resources:
+      static-locations: file:src/main/resources/static/
+      cache-period: 0
